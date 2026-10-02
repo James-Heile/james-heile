@@ -24,7 +24,7 @@ This skill guides the AI to format unstructured analytical, financial, or strate
   - No decorative prose or meta-commentary ("Here is your memo").
 
 ## Expected Output Format
-Formatted Markdown output matching formal memo conventions:
+- Formatted Markdown output matching formal memo conventions:
 
 ---
 
