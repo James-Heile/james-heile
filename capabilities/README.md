@@ -1,1 +1,1 @@
-Content: This folder contains general project documentation and reference materials.
+Content: This folder contains specialized project capabilities, including their documentation, specifications, and supporting files.
