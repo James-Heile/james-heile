@@ -4,7 +4,7 @@ engagement: fx-hedging
 capability: fx-hedging
 date: 2026-10-21
 status: committed
-hypothesis: "I expect a forward hedge to provide the most predictable USD proceeds, while a put option preserves upside at the cost of a premium."
+hypothesis: "I expect a forward hedge to provide the most predictable USD proceeds, while a put option may preserve upside at the cost of a premium."
 ---
 
 # FX Hedging — Executive Brief
@@ -16,28 +16,28 @@ hypothesis: "I expect a forward hedge to provide the most predictable USD procee
 
 Our firm expects to receive **€4,500,000 in one year** and convert the proceeds into US dollars. Although the euro amount and expected settlement date are fixed, the dollar value is not. Our budget therefore faces uncertainty from movements in the EUR/USD exchange rate.
 
-At an exchange rate of 1.10 USD per EUR, the receivable would generate $4,950,000. If the euro weakens to 1.00, the same receivable would generate only $4,500,000—a $450,000 reduction in dollar proceeds. A 5% decline from 1.10 to 1.045 would reduce proceeds by $247,500. This is a material potential shortfall that could affect cash-flow forecasts, operating budgets, and financial planning.
+At an exchange rate of 1.10 USD per EUR, the receivable would generate $4,950,000. If the euro weakens to 1.00, the same receivable would generate only $4,500,000, which would cause a $450,000 reduction in dollar proceeds. Furthermore, a 5% decline from 1.10 to 1.045 would reduce proceeds by $247,500. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
 
-The business question is how much certainty we need over future dollar proceeds and what we should be willing to pay, or give up, to obtain it.
+To combat this, we need to decide whether it's more important to know exactly how much money we'll receive or to keep the chance of getting more if the euro strengthens.
 
-## Three Hedging Alternatives
+## Three Hedging Routes
 
-**Forward contract or futures.** We can agree today to exchange euros for dollars at a predetermined rate on a future date. This locks in the conversion value and makes budgeting more predictable. The trade-off is that we surrender additional gains if the euro strengthens; counterparty risk, contract terms, and potential margin requirements also need consideration.
+**1. Forward contract or futures.** We can agree today to exchange euros for dollars at a predetermined rate on a future date. This would lock in a conversion value and make budgeting more predictable. However, the trade-off is that we surrender additional gains if the euro strengthens.
 
-**Money-market hedge.** We can borrow against the future euro receivable, convert the euros into dollars today, and invest the dollars until the receivable arrives. This can create a known dollar value using spot and interest rates. However, it requires financing capacity and introduces additional transactions and operational complexity.
+**2. Money-market hedge.** We can borrow against the future euro receivable, by converting the euros into dollars today and investing the dollars until the receivable arrives. This can create a known dollar value using interest rates. However, it requires financing capacity and introduces additional transactions and operational complexity.
 
-**Put option on the euro.** We can purchase the right, but not the obligation, to sell euros at a specified exchange rate. This establishes a minimum conversion value while preserving the opportunity to benefit if the euro strengthens. Like insurance, the protection comes at a price: the option premium is paid whether or not the protection is ultimately needed.
+**3. Put option on the euro.** We can purchase the right, but not the obligation, to sell euros at a specified exchange rate. This establishes a minimum conversion value while preserving the opportunity to benefit if the euro strengthens. Like insurance, the protection this offers would come at a price, as the option premium is paid whether or not the protection is ultimately needed.
 
 ## Assumptions and Hypothesis
 
-For the initial analysis, I assume the firm will receive the full €4.5 million in one year, will convert the entire amount into USD, and has no existing hedge. I also assume the receivable is sufficiently certain to plan around. The initial model will use illustrative exchange rates and financing inputs rather than treating them as current market quotes. With more time, I would verify the settlement date, receivable certainty, available credit capacity, counterparty terms, and live forward and option prices.
+For my initial analysis, I have assumed that the firm will receive the full €4.5 million in one year, will convert the entire amount into USD, and has no existing hedge. In turn, for my initial model I plan to use illustrative exchange rates and financing inputs rather than treating them as current market quotes. With more time, I would verify the settlement date, receivable certainty, available credit capacity, counterparty terms, and live forward and option prices.
 
-**Hypothesis:** I expect a forward hedge to provide the most predictable USD proceeds, while a put option preserves upside at the cost of a premium. The money-market hedge may provide comparable certainty, depending on interest rates and financing costs.
+**Hypothesis:** I think a forward will be the simplest choice for budgeting purposes because it would allow us to know how many dollars the euros will turn into. On the other hand, an option would give us more flexibility, but we'd have to pay for that protection. Lastly, the money-market hedge may provide comparable certainty, but its overall cost depends on interest rates and financing costs.
 
-I would reconsider this hypothesis if verified market inputs showed that the money-market hedge produced a materially better net outcome, or that the option's premium was justified by its protection and upside potential under the firm's risk tolerance.
+All in all, I expect the forward to provide the most predictable dollar proceeds, but I'd change my mind if the numbers showed that another strategy offered a better result after accounting for its costs, or if keeping the opportunity to benefit from a stronger euro turned out to be worth the option premium.
 
 ## Next Steps
 
-Stage 2 will specify the model's workbook structure, formulas, named ranges, and validation checks. Stage 3 will build and audit the workbook with AI assistance. Stage 4 will replace illustrative inputs with sourced, timestamped market data. Stage 5 will independently validate the calculations, verify key results, and document the final recommendation in a decision memo.
+At this point, I don't think we should commit to a hedging strategy until we've compared the costs and benefits of each option. Although I expect a forward hedge to be a good fit for budgeting purposes, we need to verify that it makes the most financial sense for the company before making a final decision.
 
-No hedge is recommended at this stage. The objective is to build a transparent, testable analysis before committing company funds or limiting future currency gains.
+Consequently, in Stage 2, I will design the spreadsheet and outline how it will calculate and compare the three hedging strategies. In Stage 3, I will build the spreadsheet with AI assistance and check that the formulas work correctly. Then, in Stage 4, I will replace the illustrative inputs with real, sourced market data. Finally, in Stage 5, I will independently verify the results and use them to make a final recommendation based on the numbers and the company's needs.
