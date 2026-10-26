@@ -18,7 +18,7 @@ Our firm expects to receive **€4,500,000 in one year** and convert the proceed
 
 At an exchange rate of 1.10 USD per EUR, the receivable would generate $4,950,000. If the euro weakens to 1.00, the same receivable would generate only $4,500,000, which would cause a $450,000 reduction in dollar proceeds. Furthermore, a 5% decline from 1.10 to 1.045 would reduce proceeds by $247,500. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
 
-To combat this, we need to decide whether it's more important to know exactly how much money we'll receive or to keep the chance of getting more if the euro strengthens.
+To manage this risk, we need to decide whether it's more important to know exactly how many U.S. dollars we'll receive from the €4.5 million payment or to keep the opportunity to receive more dollars if the euro strengthens.
 
 ## Three Hedging Routes
 
