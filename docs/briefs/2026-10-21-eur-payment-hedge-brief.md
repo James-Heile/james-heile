@@ -24,7 +24,7 @@ To manage this risk, we need to decide whether it's more important to know exact
 
 **1. Forward contract or futures.** We can agree today to exchange euros for dollars at a predetermined rate on a future date. This would lock in a conversion value and make budgeting more predictable. However, the trade-off is that we surrender additional gains if the euro strengthens.
 
-**2. Money-market hedge.** We can borrow against the future euro receivable, by converting the euros into dollars today and investing the dollars until the receivable arrives. This can create a known dollar value using interest rates. However, it requires financing capacity and introduces additional transactions and operational complexity.
+**2. Money-market hedge.** We can borrow euros today, convert the borrowed amount into dollars at the current exchange rate, and invest the dollars until the receivable arrives. The future euro payment can then be used to repay the loan. This can create a known dollar value using interest rates, but it requires financing capacity and adds transactions and operational complexity.
 
 **3. Put option on the euro.** We can purchase the right, but not the obligation, to sell euros at a specified exchange rate. This establishes a minimum conversion value while preserving the opportunity to benefit if the euro strengthens. Like insurance, the protection this offers would come at a price, as the option premium is paid whether or not the protection is ultimately needed.
 
