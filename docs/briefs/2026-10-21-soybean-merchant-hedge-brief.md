@@ -2,14 +2,18 @@
 type: brief
 engagement: fx-hedging
 capability: fx-hedging
+scenario: soybean-merchant
+llm_used: chatgpt
 date: 2026-10-21
 status: committed
 hypothesis: "I expect a forward hedge to provide the most predictable USD proceeds, while a put option may preserve upside at the cost of a premium."
 ---
 
-# FX Hedging — Executive Brief
+# FX Hedging — Executive Brief: Scenario 14 (Soybean Merchant)
 
 **To:** Chief Financial Officer  
+**From:** Student Analyst       
+**Date:** October 23, 2026        
 **Subject:** Managing EUR/USD Exposure on a €13.5 Million Receivable
 
 ## The Exposure and Business Risk
