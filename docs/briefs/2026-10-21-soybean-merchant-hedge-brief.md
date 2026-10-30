@@ -16,7 +16,7 @@ hypothesis: "I expect a forward hedge to provide the most predictable USD procee
 
 Our firm expects to receive **€13,500,000 in 6 months** and convert the proceeds into US dollars. Although the euro amount and expected settlement date are fixed, the dollar value is not. Our budget therefore faces uncertainty from movements in the EUR/USD exchange rate.
 
-Using the ECB reference rate of 1.1193 USD per EUR on October 23, 2026, the receivable would be worth approximately $15,110,550. If the euro weakens by 5%, to 1.063335, the proceeds would fall to approximately $14,355,023, a reduction of about $755,528. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
+Using the ECB reference rate of 1.1193 USD per EUR on October 18, 2026, the receivable would be worth approximately $15,110,550. If the euro weakens by 5%, to 1.063335, the proceeds would fall to approximately $14,355,023, a reduction of about $755,528. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
 
 To manage this risk, we need to decide whether it's more important to know exactly how many dollars we'll receive or to preserve the opportunity to receive more dollars if the euro strengthens.
 
@@ -30,7 +30,7 @@ To manage this risk, we need to decide whether it's more important to know exact
 
 ## Assumptions and Hypothesis
 
-For my initial analysis, I have used the spot rate available for October 23, 2026, along with the indicative forward rate and option premiums provided in the scenario. These are starting figures rather than confirmed market quotes, so the actual results could change. I have also assumed that the full €13.5 million receivable will be paid in 182 days and that we have not already hedged any of this exposure. Before choosing a strategy, I would want to confirm when the payment is expected, how certain the receivable is, and what interest rates and hedging prices are currently available. 
+For my initial analysis, I have used the spot rate available for October 18, 2026, along with the indicative forward rate and option premiums provided in the scenario. These are starting figures rather than confirmed market quotes, so the actual results could change. I have also assumed that the full €13.5 million receivable will be paid in 182 days and that we have not already hedged any of this exposure. Before choosing a strategy, I would want to confirm when the payment is expected, how certain the receivable is, and what interest rates and hedging prices are currently available. 
 
 **Hypothesis:** I think a forward will be the simplest choice for budgeting purposes because it would let us know in advance how many dollars we will receive for the euros. An option would give us more flexibility and allow us to benefit if the euro strengthens, but we would have to pay a premium for that protection. The money-market hedge could also provide predictable proceeds, although its overall attractiveness would depend on the interest rates and financing costs involved.
 
