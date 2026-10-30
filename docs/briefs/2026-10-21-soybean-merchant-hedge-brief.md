@@ -16,7 +16,7 @@ hypothesis: "I expect a forward hedge to provide the most predictable USD procee
 
 Our firm expects to receive **€13,500,000 in 6 months** and convert the proceeds into US dollars. Although the euro amount and expected settlement date are fixed, the dollar value is not. Our budget therefore faces uncertainty from movements in the EUR/USD exchange rate.
 
-Using the ECB reference rate of 1.1193 USD per EUR on October 23, 2026, the receivable would be worth approximately $15,110,550. If the euro weakens by 5%, to 1.063335, the proceeds would fall to approximately $14,354,023, a reduction of about $756,528. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
+Using the ECB reference rate of 1.1193 USD per EUR on October 23, 2026, the receivable would be worth approximately $15,110,550. If the euro weakens by 5%, to 1.063335, the proceeds would fall to approximately $14,355,023, a reduction of about $755,528. This variability presents a potential shortfall that could affect our cash-flow forecasts, operating budgets, and financial planning.
 
 To manage this risk, we need to decide whether it's more important to know exactly how many dollars we'll receive or to preserve the opportunity to receive more dollars if the euro strengthens.
 
