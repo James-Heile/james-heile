@@ -1,140 +1,175 @@
-# FX Hedging Model Specification: Scenario 14 (Soybean Merchant)
+# University of Hawaiʻi at Mānoa · Shidler College of Business
+# FIN 321: International Finance and Securities
+# FX Transaction Hedging Project — Technical Specification
 
-**Document Path:** `capabilities/fx-hedging/spec.md`  
-**Engagement:** FX Hedging — Stage 2 Model Specification  
-**Author:** Student Analyst  
-**Date:** October 23, 2026  
-**Status:** Draft for Review & Audit Specification  
+## Soybean Merchant (Scenario 14) — FX Transaction Hedge Model · Technical Specification
 
----
+Technical specification for the FX transaction hedge model — the named-range contract, calculation flow, and validation checks, precise enough that an AI or a colleague could build (or rebuild) the workbook from this document alone. This spec is the input the AI-assisted build works from.
 
-## Section 1: Problem Statement
-
-A U.S. soybean merchandiser has sold soybeans to a German oilseed crusher and invoiced the customer in euros. The firm holds a foreign-currency receivable of **€13,500,000**, with payment due in **182 days (6 months)**. 
-
-Because the invoice is denominated in EUR and the firm reports in USD, the firm is exposed to EUR/USD foreign exchange volatility over the 182-day holding period. If the euro depreciates against the U.S. dollar, the firm will realize fewer USD proceeds upon settlement, creating potential cash flow deficits, operating budget shortfalls, and compressed profit margins. 
-
-The objective of this financial model is to quantify the baseline unhedged exposure and evaluate three distinct hedging strategies—a **Forward Contract**, a **Money-Market Hedge**, and a **Put Option Floor**—to provide executive leadership with a structured risk-return framework for decision-making.
-
----
-
-## Section 2: Inputs — The Named-Range Contract
-
-All inputs are stored on the `Inputs` tab and bound to explicit named ranges. All interest rates and spot/forward quotes follow market conventions using an **ACT/360 day-count basis**.
-
-| Named Range | Description | Placeholder Value | Unit | Stage 4 Data Source |
-| :--- | :--- | :--- | :--- | :--- |
-| `FC_AMT` | Foreign-currency receivable | `13500000` | EUR | Commercial Invoice (Fixed contract parameter) |
-| `S0_in` | Spot exchange rate at inception | `1.1221` | USD per EUR | ECB Reference Rate (October 23, 2026) |
-| `F0_in` | 182-day forward exchange rate | `1.1705` | USD per EUR | Indicative market quote *(Replaced at Stage 4)* |
-| `R_USD` | USD annualized interest rate | `5.30%` | Annual % (ACT/360) | Federal Reserve H.15 6-Month Treasury / SOFR *(Placeholder)* |
-| `R_FC` | EUR annualized interest rate | `3.10%` | Annual % (ACT/360) | ECB Main Refinancing Rate / 6M EURIBOR *(Placeholder)* |
-| `K_PUT` | Put option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0_in`) |
-| `K_CALL` | Call option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0_in`) |
-| `PREM_PUT` | Put option premium per unit of FC | `0.0194` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
-| `PREM_CALL` | Call option premium per unit of FC | `0.0296` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
-| `T_DAYS` | Time to settlement | `182` | Days | Contract maturity (Fixed contract parameter) |
-
-> *Note: All numerical values listed above are indicative placeholders and will be updated with live market data at Stage 4.*
+| Field | Value |
+| :--- | :--- |
+| **Created by** | James Heile |
+| **Updated by** | James Heile |
+| **Date Created** | 2026-10-28 |
+| **Date Updated** | 2026-10-28 |
+| **Version** | 1.0 |
+| **LLM Used** | ChatGPT |
+| **Role** | Treasury Analyst / FP&A Analyst |
+| **Audience** | CFO / Director of Treasury |
+| **Companion Workbook** | student build (`model.xlsx`) |
 
 ---
 
-## Section 3: Tab Architecture
+## 1. Problem Statement
 
-The workbook `capabilities/fx-hedging/model.xlsx` consists of six required tabs organized logically to support dynamic calculations and auditing:
-
-1. **`Cover`**: Executive overview, project metadata, author info, scenario definition, and stage status.
-2. **`Legend_Key`**: Formatting standards (e.g., blue text / yellow fill for hardcoded inputs, black text for formulas, gray fill for key summary outputs), color codes, and table of named range definitions.
-3. **`Inputs`**: Centralized data entry table for all ten contract named ranges. No hardcoded constants exist outside this tab.
-4. **`Hedge_Calculations`**: Active calculation engine detailing the step-by-step logic for Unhedged, Forward Contract, Money-Market Hedge, and Put Option strategies.
-5. **`Sensitivity`**: Scenario analysis engine modeling terminal spot rate ($S_T$) shifts from $-5\%$ to $+5\%$ in $1\%$ increments, containing the comparative summary table and visualization chart.
-6. **`Notes_Assumptions`**: Institutional documentation of day-count conventions, transaction cost policies, credit assumptions, and mathematical models.
+A U.S. soybean merchandiser has sold oilseed to a German crusher and invoiced the transaction in euros, resulting in a foreign-currency receivable of **€13,500,000** due in **182 days**. Because the firm reports in USD, it faces cash flow and earnings volatility driven by fluctuations in the EUR/USD exchange rate. The primary objective is to protect the firm's USD cash inflows against adverse euro depreciation while evaluating alternative hedging structures (forward, money-market, and put option) to balance budgeting certainty against upside optionality. This analysis is prepared for executive treasury review under board-approved corporate risk management guidelines.
 
 ---
 
-## Section 4: Assumptions & Constraints
+## 2. Inputs (Known Variables)
 
-1. **Day-Count Convention**: All annualized interest rates (`R_USD`, `R_FC`) use the money-market convention of **ACT/360**. The time fraction is calculated strictly as `T_DAYS / 360`.
-2. **Transaction Costs & Spreads**: Transaction costs, bid-ask spreads, and credit line maintenance fees are assumed to be zero in the baseline model.
-3. **Option Premium Timing**: Option premiums (`PREM_PUT`, `PREM_CALL`) are paid upfront at $t=0$. To maintain cash-flow comparability at maturity ($t=182$), option premiums are compounded to $t=182$ using the USD risk-free rate (`R_USD`).
-4. **Credit & Borrowing Limits**: The firm is assumed to have sufficient credit capacity to execute euro borrowing without incurring credit spread surcharges or collateral calls.
-5. **Tax & Accounting Rules**: Gains/losses across all strategies are evaluated on a pre-tax basis under standard USD functional currency accounting.
+All inputs are exposed as workbook named ranges so the calculation flow reads identically whether implemented in Excel, Python, or an AI prompt. Dates, sources, and access timestamps are recorded in the Notes tab. Market inputs (spot, forward, rates, premia) are the adjustable scenario cells.
 
----
+### 2.1 Core Inputs
 
-## Section 5: Calculation Flow
+| Standardized Name | Description | Unit | Example / Scenario Value |
+| :--- | :--- | :--- | :--- |
+| `FC_AMT` | Foreign-currency notional (receivable) | EUR | 13,500,000 |
+| `S0_in` | Spot exchange rate at inception | USD per EUR | 1.1221 |
+| `F0_in` | Forward rate to settlement | USD per EUR | 1.1705 |
+| `R_USD` | USD interest rate to settlement | Annual % | 5.30% (0.0530) |
+| `R_FC` | Foreign-currency interest rate to settlement | Annual % | 3.10% (0.0310) |
+| `T_DAYS` | Days to settlement | Days | 182 |
+| `BASIS` | Day-count denominator (single-value simplification) | Days | 360 (ACT/360 money-market convention) |
+| `K_PUT` | Put option strike (receivables) | USD per EUR | 1.1221 (At-the-money spot) |
+| `PREM_PUT` | Put premium, USD per 1 FC | USD | 0.0194 |
 
-All formulas are specified strictly using named-range notation.
+### 2.2 Derived / Intermediate Values
 
-### 1. Baseline Unhedged Exposure at Maturity ($t = 182$)
-$$\text{USD\_Unhedged} = \text{FC\_AMT} \times S_T$$
-
-### 2. Strategy 1: Forward Contract Hedge
-$$\text{USD\_Forward} = \text{FC\_AMT} \times \text{F0\_in}$$
-
-### 3. Strategy 2: Money-Market Hedge (Three-Step Pipeline)
-* **Step 1 (Borrow Foreign Currency Today)**: Size the euro loan so that maturity principal and interest exactly equal the receivable amount:
-  $$\text{FC\_Borrow} = \frac{\text{FC\_AMT}}{1 + \left(\text{R\_FC} \times \frac{\text{T\_DAYS}}{360}\right)}$$
-* **Step 2 (Convert Foreign Currency to USD at Spot)**: Convert the borrowed euros to dollars at inception:
-  $$\text{USD\_Now} = \text{FC\_Borrow} \times \text{S0\_in}$$
-* **Step 3 (Invest USD Proceeds to Settlement)**: Invest USD proceeds at the domestic interest rate to $t=182$:
-  $$\text{USD\_MM\_Proceeds} = \text{USD\_Now} \times \left(1 + \left(\text{R\_USD} \times \frac{\text{T\_DAYS}}{360}\right)\right)$$
-
-### 4. Strategy 3: Put Option Floor Hedge
-* **Gross Proceeds at Settlement Spot $S_T$**:
-  $$\text{USD\_Put\_Gross} = \text{FC\_AMT} \times \max(S_T, \text{K\_PUT})$$
-* **Future Value of Premium Paid at $t=182$**:
-  $$\text{PREM\_PUT\_FV} = (\text{FC\_AMT} \times \text{PREM\_PUT}) \times \left(1 + \left(\text{R\_USD} \times \frac{\text{T\_DAYS}}{360}\right)\right)$$
-* **Net Proceeds at Settlement**:
-  $$\text{USD\_Put\_Net} = \text{USD\_Put\_Gross} - \text{PREM\_PUT\_FV}$$
-
----
-
-## Section 6: Sensitivity Plan
-
-The model tests terminal spot rate movements at settlement ($S_T$) across a range of **$-5\%$ to $+5\%$ relative to inception spot (`S0_in`) in $1\%$ increments** (11 steps total).
-
-* **Independent Variable ($S_T$)**:  
-  $$S_T = \text{S0\_in} \times (1 + \Delta\%)$$  
-  where $\Delta\% \in \{-5\%, -4\%, -3\%, -2\%, -1\%, 0\%, +1\%, +2\%, +3\%, +4\%, +5\%\}$.
-* **Evaluated Outputs**: Unhedged Proceeds, Forward Proceeds, Money-Market Proceeds, and Net Put Option Proceeds across all 11 scenarios.
-* **Visualization Chart**: A line chart titled **"182-Day USD Cash Proceeds by Hedging Strategy vs. Terminal Spot Rate"** plotting $S_T$ on the horizontal axis and USD Proceeds on the vertical axis.
-* **CFO Decision Insight**: The chart illustrates the downside protection (floor) provided by the put option, the fixed return lock-in of the forward/MM hedges, and the unhedged downside vulnerability.
-
----
-
-## Section 7: Validation Rules (Check Figures & Audit Criteria)
-
-The completed Stage 3 workbook must pass the following automated integrity checks:
-
-1. **Covered Interest Rate Parity Check**:  
-   Compute implied forward rate:
-   $$F_{\text{implied}} = \text{S0\_in} \times \frac{1 + \left(\text{R\_USD} \times \frac{\text{T\_DAYS}}{360}\right)}{1 + \left(\text{R\_FC} \times \frac{\text{T\_DAYS}}{360}\right)}$$
-   *Validation Rule*: $|\text{USD\_MM\_Proceeds} - (\text{FC\_AMT} \times F_{\text{implied}})| < \$0.01$. If non-zero, trigger audit flag `ERR: PARITY_DISCREPANCY`.
-2. **Formula Integrity**: Zero hardcoded numbers in calculation cells. No spreadsheet error codes (`#REF!`, `#VALUE!`, `#N/A`, `#DIV/0!`).
-3. **Option Floor Rule**: For all $S_T \le \text{K\_PUT}$, $\text{USD\_Put\_Gross}$ must exactly equal $\text{FC\_AMT} \times \text{K\_PUT}$.
-4. **Forward Flat Line Rule**: Forward hedge proceeds must remain constant across all $S_T$ sensitivity steps.
-
----
-
-## Section 8: Named Summary Outputs
-
-| Output Name | Description | Cell Formatting Standard |
+| Name | Description | Formula / Source |
 | :--- | :--- | :--- |
-| `OUT_UNHEDGED_BASE` | Baseline unhedged proceeds at `S0_in` | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_FWD_PROCEEDS` | Fixed dollar proceeds under Forward Hedge | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_MM_PROCEEDS` | Fixed dollar proceeds under Money-Market Hedge | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_PUT_NET_FLOOR` | Minimum net dollar proceeds under Put Option | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_PARITY_GAP` | Absolute dollar variance between Forward and MM | Currency (`$#,##0.00`), Green/Red Flag |
+| `DF_USD` | USD accumulation factor | $1 + R_{\text{USD}} \times (T_{\text{DAYS}} / \text{BASIS})$ |
+| `DF_FC` | Foreign currency accumulation factor | $1 + R_{\text{FC}} \times (T_{\text{DAYS}} / \text{BASIS})$ |
+| `FV_PREM_PUT` | Future value of put premium at settlement | $-\text{PREM\_PUT} \times \text{FC\_AMT} \times (1 + R_{\text{USD}} \times T_{\text{DAYS}}/\text{BASIS})$ |
+| `S_T_grid` | Sensitivity spot grid at settlement | Built from $S_{0,\text{in}} \pm 5\%$ in $1\%$ steps |
+| `USD_NO_HEDGE` | USD proceeds under no hedge | $S_T \times \text{FC\_AMT}$ |
 
 ---
 
-## Appendix: Prompt Log & Review Iteration
+## 3. Assumptions & Constraints
 
-### AI Review Iteration Log (`prompt-log.md`)
+- **Quote convention:** All rates expressed as USD per unit of foreign currency (USD/EUR). A higher quote means euro appreciation.
+- **Horizon:** Single-maturity model; $T_{\text{DAYS}} = 182$ days.
+- **Day-count basis:** Uses the money-market convention of **ACT/360** ($\text{BASIS} = 360$) for both USD and EUR legs.
+- **Parity:** Money-market hedge is assumed to replicate the forward hedge under covered interest-rate parity; any gap is treated as a test of input pricing consistency rather than a model error.
+- **Option premium:** Paid upfront in USD, quoted per 1 unit of FC. Expressed as a negative cash flow at $t_0$ and compounded forward at $R_{\text{USD}}$ to align with settlement-date proceeds.
+- **Counterparty / credit risk:** Excluded. All derivatives assumed frictionless and creditworthy.
+- **Transaction costs & bid-ask spreads:** Excluded from the base case.
+- **Tax / accounting treatment:** Excluded. Model reports pre-tax cash outcomes only.
+- **Scenario construction:** Future spot $S_T$ is varied deterministically across a $-5\%$ to $+5\%$ grid in $1\%$ increments.
 
-* **Initial Draft Defect Identified**: The initial specification draft omitted the explicit day-count basis for interest rate conversions and failed to compound the option premium to settlement date $t=182$, creating an apples-to-oranges cash flow comparison between $t=0$ option costs and $t=182$ hedge proceeds.
-* **AI Feedback Prompt**: *"Audit my §4 and §5 spec logic. Are cash flows properly aligned by time value of money?"*
-* **Fix Applied**: 
-  1. Updated §4 and §2 to mandate **ACT/360** day-count convention for all rate terms (`T_DAYS / 360`).
-  2. Modified §5 Strategy 3 to compute $\text{PREM\_PUT\_FV}$ compounded at rate `R_USD` over `T_DAYS`, ensuring net option proceeds reflect true $t=182$ dollars.
+---
+
+## 4. Calculation Flow
+
+Described in named-range pseudocode. Formulas are written for a receivable exposure.
+
+### Step 1 — Derived inputs
+1. `DF_USD` $= 1 + \text{R\_USD} \times \text{T\_DAYS} / \text{BASIS}$
+2. `DF_FC` $= 1 + \text{R\_FC} \times \text{T\_DAYS} / \text{BASIS}$
+3. `FV_PREM_PUT` $= -\text{PREM\_PUT} \times \text{FC\_AMT} \times \text{DF\_USD}$
+
+### Step 2 — Forward hedge (certainty benchmark)
+- `USD_FWD` $= \text{FC\_AMT} \times \text{F0\_in}$
+- Locked-in at $t_0$; invariant across the $S_T$ grid.
+
+### Step 3 — Money-market hedge (parity check)
+1. Borrow $\text{FC\_AMT} / \text{DF\_FC}$ foreign currency today (discounted PV of receivable).
+2. Convert to USD at spot: $(\text{FC\_AMT} / \text{DF\_FC}) \times \text{S0\_in}$.
+3. Invest USD to maturity: $\text{USD\_MM} = (\text{FC\_AMT} / \text{DF\_FC}) \times \text{S0\_in} \times \text{DF\_USD}$.
+4. At maturity, the EUR receivable repays the euro loan exactly, leaving the USD investment proceeds.
+- **Parity check:** $\text{USD\_MM} \approx \text{USD\_FWD}$ within rounding.
+
+### Step 4 — Option hedge (floor with upside)
+Put-and-hold strategy on the receivable:
+- Pay $\text{PREM\_PUT} \times \text{FC\_AMT}$ USD today for a put option with strike `K_PUT`.
+- At settlement, for each $S_T$ on the grid:
+  - $\text{USD\_PUT}(S_T) = \max(S_T, \text{K\_PUT}) \times \text{FC\_AMT} + \text{FV\_PREM\_PUT}$
+
+### Step 5 — Sensitivity table (rows of the grid)
+For each $S_T$ in `S_T_grid`:
+- **No hedge:** $S_T \times \text{FC\_AMT}$
+- **Forward:** `USD_FWD` (constant)
+- **Money market:** `USD_MM` (constant)
+- **Option (put):** $\max(S_T, \text{K\_PUT}) \times \text{FC\_AMT} + \text{FV\_PREM\_PUT}$
+- **Hedge profit:** $\text{USD}_k - \text{USD\_NO\_HEDGE}$ for each strategy $k$.
+- **Winner labels:** `ARGMAX` across strategies.
+
+### Step 6 — Summary metrics (scalar outputs)
+- $\text{USD\_FLOOR\_PUT} = \min(\text{USD\_PUT})$ across `S_T_grid`.
+- $\text{USD\_BASE\_k} = \text{USD}_k$ evaluated at $S_T = \text{S0\_in}$.
+
+---
+
+## 5. Outputs
+
+| Output Description | Format / Location | Purpose |
+| :--- | :--- | :--- |
+| **Input panel** | Top of each tab | Single source of truth for named ranges |
+| **Strategy summary** | Table above sensitivity grid | Executive at-a-glance baseline comparison |
+| **Sensitivity table** | Core table on sensitivity tab | Core analytical evidence across $\pm 5\%$ spot range |
+| **Hedge-profit columns** | Sub-table within sensitivity grid | Isolates strategy value-add vs. unhedged exposure |
+| **Winner labels** | Label columns | Quick-read decision cue |
+| **Sensitivity chart** | Embedded line chart | Visual comparison of payout profiles |
+
+### 5.1 Computed Base-Case Values ($S_T = S_{0,\text{in}} = 1.1221$)
+
+| Strategy | USD Proceeds (Receivable) | Hedge Profit vs. No Hedge |
+| :--- | :--- | :--- |
+| **No hedge** | $15,148,350.00 | $0.00 |
+| **Forward** | $15,801,750.00 | +$653,400.00 |
+| **Money market** | $15,314,233.55 | +$165,883.55 |
+| **Option (put)** | $14,879,435.99 | -$268,914.01 |
+
+---
+
+## 6. Model Review — What Worked & What to Improve
+
+### 6.1 What Worked
+- The three-step money-market pipeline accurately mirrors the borrowing, spot conversion, and reinvestment mechanics.
+- Upward compounding of option premium via `DF_USD` correctly places upfront cash flows on a time-equivalent $t = 182$ settlement basis.
+
+### 6.2 What to Improve
+- Incorporate live API rate pulls in Stage 4 to reconcile the quoted forward rate (`1.1705`) with covered interest-rate parity implied rates.
+
+### 6.3 Auditability Checklist
+- [x] Every input has a standardized named range from §2.1.
+- [x] Every formula in §4 uses named ranges — no bare cell references.
+- [x] Money-market hedge ties to forward hedge mechanics.
+- [x] Put payoff at $S_T = K_{\text{PUT}}$ verified against strike and premium future value.
+- [x] Sensitivity grid is symmetric around $S_T = S_{0,\text{in}}$ in 1% steps.
+- [x] Notes tab records ECB reference spot sources and access dates.
+- [x] Cell colors match formatting standards.
+
+---
+
+## 7. Sensitivity Plan
+
+- **Grid:** `S_T_grid` spans $1.1221 \times (1 \pm 5\%)$ in $1\%$ increments (11 rows total).
+- **Strategies plotted:** No hedge, Forward, Money market, Put option.
+- **Primary chart:** Line chart with $S_T$ on the x-axis and USD proceeds on the y-axis.
+- **Secondary table:** Hedge profit vs. no hedge to quantify risk/reward profiles.
+
+---
+
+## 8. Limitations & Next Steps
+
+This specification treats the hedge statically at $t_0$, excludes credit/counterparty risk, and relies on scenario-driven premium inputs rather than Black-Scholes volatility outputs. Future stages will translate this evidence into the Stage 5 CFO decision memo.
+
+---
+
+## Appendix A — Change Log
+
+| Version | Date | Author | Change |
+| :--- | :--- | :--- | :--- |
+| 1.0 | 2026-10-28 | James Heile | Initial comprehensive spec for Scenario 14 (Soybean Merchant) |
