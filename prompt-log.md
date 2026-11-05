@@ -70,3 +70,24 @@ The specification remains subject to review, particularly the assumptions, inter
 
 ### Takeaway
 A precise specification should make the workbook easier to build and audit. AI can help identify gaps, but the calculations, assumptions, and final revisions still need to be checked against the assignment requirements.
+
+
+
+## 2026-10-28 — FX Hedging Model Specification Revision & Feedback Integration (Stage 2)
+
+### Goal
+Refine and audit the Stage 2 model specification (`spec.md`) in response to instructor feedback, ensuring full alignment with the 6-tab architecture, explicit Stage 4 data sources, call option inclusion, and proper time-value-of-money cash flow alignment.
+
+### What I Worked On
+I reviewed the instructor's feedback sweep and audited my draft specification. I structured the 6-tab workbook architecture, integrated `K_CALL` and `PREM_CALL` inputs with explicit Stage 4 data tracking, added the call option calculation flow, established a rigorous tolerance threshold for the covered interest rate parity gap, and expanded the executive CFO decision insights.
+
+### What AI Helped With
+- Auditing calculation logic for time-value-of-money alignment between upfront cash flows and terminal maturity cash flows
+- Cross-referencing missing inputs and structural elements from previous draft iterations
+- Formatting equations and tables cleanly for markdown compatibility and auditability
+
+### What I Reviewed or Changed
+I identified and corrected a critical drafting defect where option premiums paid upfront at $t = 0$ were compared directly against $t = 182$ maturity proceeds without proper compounding. I explicitly mandated the ACT/360 day-count convention (`T_DAYS / BASIS`) across all rate conversions and updated Strategy 3 and Strategy 4 to compound option premiums forward to terminal settlement using `R_USD`. I also explicitly defined the parity valuation gap ($487,516.45) as an indicator of real-world market basis rather than a rounding error, and set a strict $\pm \$5,000.00$ audit tolerance rule.
+
+### Takeaway
+Rigorous model specification requires strict temporal alignment of cash flows and transparent handling of real-world market imperfections like the forward-to-parity basis gap. Integrating feedback iteratively ensures the technical document is robust enough to drive the Stage 3 Excel build.
