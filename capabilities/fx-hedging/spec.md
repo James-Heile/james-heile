@@ -109,10 +109,9 @@ The model tests terminal spot rate movements at settlement (`S_T`) across a rang
 The completed Stage 3 workbook must pass the following automated integrity checks:
 
 1. **Covered Interest Rate Parity Check**:  
-   Compute implied forward rate:  
-   `F_implied` = `S0_in` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`))) / (1 + (`R_FC` × (`T_DAYS` / `BASIS`)))  
-   *Parity Gap Evaluation*: The model's CIP-implied forward is 1.1344, whereas the quoted forward `F0_in` is 1.1705, resulting in a valuation gap of $487,516.45 between `USD_MM` and `USD_FWD`. This variance is **not** a rounding artifact; it reflects real-world market basis, counterparty credit spreads, and institutional supply-demand imbalances in the FX swap market.  
-   *Tolerance & Action Rule*: The model allows an allowable parity tolerance band of ± $5,000.00$ for purely technical execution discrepancies. Because the $487,516.45 gap severely breaches this tolerance, the model triggers an automated audit warning (`WARN: BASIS_MISMATCH`), and the treasury memo must flag that executing a synthetic money-market hedge rather than an outright forward would leave an unhedged basis exposure.
+   - **Formula**: `F_implied` = `S0_in` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`))) / (1 + (`R_FC` × (`T_DAYS` / `BASIS`)))  
+   - **Parity Gap Evaluation**: Implied forward is 1.1344 vs. quoted `F0_in` of 1.1705, creating a $487,516.45 valuation gap between `USD_MM` and `USD_FWD`. This variance reflects real-world market basis, credit spreads, and FX swap market supply-demand imbalances rather than a rounding error.  
+   - **Tolerance & Action Rule**: Allowable technical tolerance is ±$5,000.00. Because the gap breaches tolerance, the model triggers an automated audit warning (`WARN: BASIS_MISMATCH`), and the treasury memo must flag the unhedged basis exposure in synthetic hedges.
 2. **Formula Integrity**: Zero hardcoded numbers in calculation cells. No spreadsheet error codes (`#REF!`, `#VALUE!`, `#N/A`, `#DIV/0!`).
 3. **Option Floor Rule**: For all `S_T` <= `K_PUT`, net put proceeds must equal exactly `K_PUT` × `FC_AMT` + `FV_PREM_PUT` ($14,879,435.99).
 4. **Forward Flat Line Rule**: Forward hedge proceeds must remain constant at $15,801,750.00 across all `S_T` sensitivity steps.
