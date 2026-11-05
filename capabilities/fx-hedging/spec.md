@@ -130,15 +130,3 @@ The completed Stage 3 workbook must pass the following automated integrity check
 | `OUT_MM_PROCEEDS` | Fixed dollar proceeds under Money-Market Hedge | Currency (`$#,##0.00`), Gray Fill |
 | `OUT_PUT_NET_FLOOR` | Minimum net dollar proceeds under Put Option | Currency (`$#,##0.00`), Gray Fill |
 | `OUT_PARITY_GAP` | Absolute dollar variance between Forward and MM | Currency (`$#,##0.00`), Green/Red Flag |
-
----
-
-## Appendix: Prompt Log & Review Iteration
-
-### AI Review Iteration Log (`prompt-log.md`)
-
-- **Initial Draft Defect Identified**: The initial specification draft omitted the explicit day-count basis for interest rate conversions and failed to compound the option premium to settlement date t = 182, creating an apples-to-oranges cash flow comparison between t = 0 option costs and t = 182 hedge proceeds.
-- **AI Feedback Prompt**: *"Audit my §4 and §5 spec logic. Are cash flows properly aligned by time value of money?"*
-- **Fix Applied**:  
-  1. Updated §4 and §2 to mandate **ACT/360** day-count convention for all rate terms (`T_DAYS` / `BASIS`).
-  2. Modified §5 Strategy 3 to compute `FV_PREM_PUT` compounded at rate `R_USD` over `T_DAYS`, ensuring net option proceeds reflect true t = 182 dollars.
