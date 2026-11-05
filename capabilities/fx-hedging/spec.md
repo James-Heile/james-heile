@@ -97,8 +97,7 @@ All formulas are specified strictly using named-range notation.
 
 The model tests terminal spot rate movements at settlement (`S_T`) across a range of **-5% to +5% relative to inception spot (`S0_in`) in 1% increments** (11 steps total).
 
-- **Independent Variable (`S_T`)**:  
-  `S_T` = `S0_in` × (1 + Delta%), where Delta% ranges from -5% to +5% in 1% steps.
+- **Independent Variable (`S_T`)**: `S_T` = `S0_in` × (1 + Delta%), where Delta% ranges from -5% to +5% in 1% steps.
 - **Evaluated Outputs**: Unhedged Proceeds, Forward Proceeds, Money-Market Proceeds, Net Put Proceeds, and Net Call Proceeds across all 11 scenarios.
 - **Visualization Chart**: A line chart titled **"182-Day USD Cash Proceeds by Hedging Strategy vs. Terminal Spot Rate"** plotting `S_T` on the horizontal axis and USD Proceeds on the vertical axis.
 - **CFO Decision Insight**: The embedded line chart provides executive leadership with a clear comparative view of risk asymmetry. Specifically, it highlights how the forward and money-market hedges lock in a certain cash flow (disregarding upside), while the put option establishes a hard downside cash floor ($14,879,435.99) while preserving exposure to favorable euro appreciation above `S0_in`. This visual directly supports the treasury recommendation of whether the firm should prioritize budget certainty or upside participation based on board risk tolerance.
