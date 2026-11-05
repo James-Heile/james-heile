@@ -24,16 +24,16 @@ All inputs are stored on the `Inputs` tab and bound to explicit named ranges. Al
 
 | Named Range | Description | Placeholder Value | Unit | Stage 4 Data Source |
 | :--- | :--- | :--- | :--- | :--- |
-| `FC_AMT` | Foreign-currency receivable | `13500000` | EUR | Commercial Invoice (Fixed contract parameter) |
-| `S0_in` | Spot exchange rate at inception | `1.1221` | USD per EUR | ECB Reference Rate (October 21, 2026) |
-| `F0_in` | 182-day forward exchange rate | `1.1705` | USD per EUR | Indicative market quote *(Replaced at Stage 4)* |
-| `R_USD` | USD annualized interest rate | `5.30%` | Annual % (ACT/360) | Federal Reserve H.15 6-Month Treasury / SOFR *(Placeholder)* |
-| `R_FC` | EUR annualized interest rate | `3.10%` | Annual % (ACT/360) | ECB Main Refinancing Rate / 6M EURIBOR *(Placeholder)* |
-| `K_PUT` | Put option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0_in`) |
-| `PREM_PUT` | Put option premium per unit of FC | `0.0194` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
-| `K_CALL` | Call option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0_in`) |
-| `PREM_CALL` | Call option premium per unit of FC | `0.0296` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
-| `T_DAYS` | Time to settlement | `182` | Days | Contract maturity (Fixed contract parameter) |
+| `FC\_AMT` | Foreign-currency receivable | `13500000` | EUR | Commercial Invoice (Fixed contract parameter) |
+| `S0\_in` | Spot exchange rate at inception | `1.1221` | USD per EUR | ECB Reference Rate (October 21, 2026) |
+| `F0\_in` | 182-day forward exchange rate | `1.1705` | USD per EUR | Indicative market quote *(Replaced at Stage 4)* |
+| `R\_USD` | USD annualized interest rate | `5.30%` | Annual % (ACT/360) | Federal Reserve H.15 6-Month Treasury / SOFR *(Placeholder)* |
+| `R\_FC` | EUR annualized interest rate | `3.10%` | Annual % (ACT/360) | ECB Main Refinancing Rate / 6M EURIBOR *(Placeholder)* |
+| `K\_PUT` | Put option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0\_in`) |
+| `PREM\_PUT` | Put option premium per unit of FC | `0.0194` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
+| `K\_CALL` | Call option strike price | `1.1221` | USD per EUR | Market quote (Set at-the-money spot `S0\_in`) |
+| `PREM\_CALL` | Call option premium per unit of FC | `0.0296` | USD per EUR | Indicative option quote *(Replaced at Stage 4)* |
+| `T\_DAYS` | Time to settlement | `182` | Days | Contract maturity (Fixed contract parameter) |
 | `BASIS` | Day-count denominator | `360` | Days | ACT/360 money-market convention |
 
 ---
@@ -43,19 +43,19 @@ All inputs are stored on the `Inputs` tab and bound to explicit named ranges. Al
 The workbook `capabilities/fx-hedging/model.xlsx` consists of six required tabs organized logically to support dynamic calculations and auditing:
 
 1. **`Cover`**: Executive overview, project metadata, author info, scenario definition, and stage status.
-2. **`Legend_Key`**: Formatting standards (e.g., blue text / yellow fill for hardcoded inputs, black text for formulas, gray fill for key summary outputs), color codes, and table of named range definitions.
+2. **`Legend\_Key`**: Formatting standards (e.g., blue text / yellow fill for hardcoded inputs, black text for formulas, gray fill for key summary outputs), color codes, and table of named range definitions.
 3. **`Inputs`**: Centralized data entry table for all contract named ranges. No hardcoded constants exist outside this tab.
-4. **`Hedge_Calculations`**: Active calculation engine detailing the step-by-step logic for Unhedged, Forward Contract, Money-Market Hedge, Put Option, and Call Option strategies.
+4. **`Hedge\_Calculations`**: Active calculation engine detailing the step-by-step logic for Unhedged, Forward Contract, Money-Market Hedge, Put Option, and Call Option strategies.
 5. **`Sensitivity`**: Scenario analysis engine modeling terminal spot rate ($S_T$) shifts from $-5\%$ to $+5\%$ in $1\%$ increments, containing the comparative summary table and visualization chart.
-6. **`Notes_Assumptions`**: Institutional documentation of day-count conventions, transaction cost policies, credit assumptions, and mathematical models.
+6. **`Notes\_Assumptions`**: Institutional documentation of day-count conventions, transaction cost policies, credit assumptions, and mathematical models.
 
 ---
 
 ## Section 4: Assumptions & Constraints
 
-1. **Day-Count Convention**: All annualized interest rates (`R_USD`, `R_FC`) use the money-market convention of **ACT/360**. The time fraction is calculated strictly as `T_DAYS / BASIS`.
+1. **Day-Count Convention**: All annualized interest rates (`R\_USD`, `R\_FC`) use the money-market convention of **ACT/360**. The time fraction is calculated strictly as `T_DAYS / BASIS`.
 2. **Transaction Costs & Spreads**: Transaction costs, bid-ask spreads, and credit line maintenance fees are assumed to be zero in the baseline model.
-3. **Option Premium Timing**: Option premiums (`PREM_PUT`, `PREM_CALL`) are paid upfront at $t=0$. To maintain cash-flow comparability at maturity ($t=182$), option premiums are compounded to $t=182$ using the USD risk-free rate (`R_USD`).
+3. **Option Premium Timing**: Option premiums (`PREM\_PUT`, `PREM\_CALL`) are paid upfront at $t=0$. To maintain cash-flow comparability at maturity ($t=182$), option premiums are compounded to $t=182$ using the USD risk-free rate (`R\_USD`).
 4. **Credit & Borrowing Limits**: The firm is assumed to have sufficient credit capacity to execute euro borrowing without incurring credit spread surcharges or collateral calls.
 5. **Tax & Accounting Rules**: Gains/losses across all strategies are evaluated on a pre-tax basis under standard USD functional currency accounting.
 
@@ -113,7 +113,7 @@ The completed Stage 3 workbook must pass the following automated integrity check
 1. **Covered Interest Rate Parity Check**:  
    Compute implied forward rate:
    $$F_{\text{implied}} = \text{S0\_in} \times \frac{1 + \left(\text{R\_USD} \times \frac{\text{T\_DAYS}}{\text{BASIS}}\right)}{1 + \left(\text{R\_FC} \times \frac{\text{T\_DAYS}}{\text{BASIS}}\right)}$$
-   *Parity Gap Evaluation*: The model's CIP-implied forward is 1.1344, whereas the quoted forward `F0_in` is 1.1705, resulting in a valuation gap of $487,516.45 between `USD_MM` and `USD_FWD`. This variance is **not** a rounding artifact; it reflects real-world market basis, counterparty credit spreads, and institutional supply-demand imbalances in the FX swap market.  
+   *Parity Gap Evaluation*: The model's CIP-implied forward is 1.1344, whereas the quoted forward `F0_in` is 1.1705, resulting in a valuation gap of $487,516.45 between `USD\_MM` and `USD\_FWD`. This variance is **not** a rounding artifact; it reflects real-world market basis, counterparty credit spreads, and institutional supply-demand imbalances in the FX swap market.  
    *Tolerance & Action Rule*: The model allows an allowable parity tolerance band of $\pm \$5,000.00$ for purely technical execution discrepancies. Because the $487,516.45 gap severely breaches this tolerance, the model triggers an automated audit warning (`WARN: BASIS_MISMATCH`), and the treasury memo must flag that executing a synthetic money-market hedge rather than an outright forward would leave an unhedged basis exposure.
 2. **Formula Integrity**: Zero hardcoded numbers in calculation cells. No spreadsheet error codes (`#REF!`, `#VALUE!`, `#N/A`, `#DIV/0!`).
 3. **Option Floor Rule**: For all $S_T \le \text{K\_PUT}$, net put proceeds must equal exactly $\text{K\_PUT} \times \text{FC\_AMT} + \text{FV\_PREM\_PUT}$ ($14,879,435.99).
@@ -127,11 +127,11 @@ The completed Stage 3 workbook must pass the following automated integrity check
 
 | Output Name | Description | Cell Formatting Standard |
 | :--- | :--- | :--- |
-| `OUT_UNHEDGED_BASE` | Baseline unhedged proceeds at `S0_in` | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_FWD_PROCEEDS` | Fixed dollar proceeds under Forward Hedge | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_MM_PROCEEDS` | Fixed dollar proceeds under Money-Market Hedge | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_PUT_NET_FLOOR` | Minimum net dollar proceeds under Put Option | Currency (`$#,##0.00`), Gray Fill |
-| `OUT_PARITY_GAP` | Absolute dollar variance between Forward and MM | Currency (`$#,##0.00`), Green/Red Flag |
+| `OUT\_UNHEDGED\_BASE` | Baseline unhedged proceeds at `S0_in` | Currency (`$#,##0.00`), Gray Fill |
+| `OUT\_FWD\_PROCEEDS` | Fixed dollar proceeds under Forward Hedge | Currency (`$#,##0.00`), Gray Fill |
+| `OUT\_MM\_PROCEEDS` | Fixed dollar proceeds under Money-Market Hedge | Currency (`$#,##0.00`), Gray Fill |
+| `OUT\_PUT\_NET\_FLOOR` | Minimum net dollar proceeds under Put Option | Currency (`$#,##0.00`), Gray Fill |
+| `OUT\_PARITY\_GAP` | Absolute dollar variance between Forward and MM | Currency (`$#,##0.00`), Green/Red Flag |
 
 ---
 
@@ -143,4 +143,4 @@ The completed Stage 3 workbook must pass the following automated integrity check
 - **AI Feedback Prompt**: *"Audit my §4 and §5 spec logic. Are cash flows properly aligned by time value of money?"*
 - **Fix Applied**:  
   1. Updated §4 and §2 to mandate **ACT/360** day-count convention for all rate terms (`T_DAYS / BASIS`).
-  2. Modified §5 Strategy 3 to compute $\text{PREM\_PUT\_FV}$ compounded at rate `R_USD` over `T_DAYS`, ensuring net option proceeds reflect true $t=182$ dollars.
+  2. Modified §5 Strategy 3 to compute $\text{PREM\_PUT\_FV}$ compounded at rate `R\_USD` over `T\_DAYS`, ensuring net option proceeds reflect true $t=182$ dollars.
