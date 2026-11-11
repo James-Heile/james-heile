@@ -40,14 +40,16 @@ All inputs are stored on the `Inputs` tab and bound to explicit named ranges. Al
 
 ## Section 3: Tab Architecture
 
-The workbook `capabilities/fx-hedging/model.xlsx` consists of six required tabs organized logically to support dynamic calculations and auditing:
+The workbook `capabilities/fx-hedging/model.xlsx` consists of eight required tabs organized logically to support dynamic calculations and auditing:
 
 1. **`Cover`**: Executive overview, project metadata, author info, scenario definition, and stage status.
 2. **`Legend_Key`**: Formatting standards (e.g., blue text / yellow fill for hardcoded inputs, black text for formulas, gray fill for key summary outputs), color codes, and table of named range definitions.
 3. **`Inputs`**: Centralized data entry table for all contract named ranges. No hardcoded constants exist outside this tab.
-4. **`Hedge_Calculations`**: Active calculation engine detailing the step-by-step logic for Unhedged, Forward Contract, Money-Market Hedge, Put Option, and Call Option strategies.
-5. **`Sensitivity`**: Scenario analysis engine modeling terminal spot rate (`S_T`) shifts from -5% to +5% in 1% increments, containing the comparative summary table and visualization chart.
-6. **`Notes_Assumptions`**: Institutional documentation of day-count conventions, transaction cost policies, credit assumptions, and mathematical models.
+4. **`Hedge_Unhedged_Fwd`**: Step-by-step calculation logic for the baseline unhedged foreign currency receivable and the Forward Contract hedge strategy.
+5. **`Hedge_MoneyMarket`**: Three-step execution pipeline for the Money-Market Hedge (foreign currency borrowing, spot conversion, and USD investment at maturity).
+6. **`Hedge_Options`**: Payoff modeling and premium compounding logic for the Put Option floor and Call Option/Collar overlay strategies.
+7. **`Sensitivity`**: Scenario analysis engine modeling terminal spot rate (`S_T`) shifts from -5% to +5% in 1% increments, containing the comparative summary table and visualization chart.
+8. **`Notes_Assumptions`**: Institutional documentation of day-count conventions, transaction cost policies, credit assumptions, and mathematical models.
 
 ---
 
@@ -85,9 +87,10 @@ All formulas are specified strictly using named-range notation.
 - **Net Proceeds at Settlement**:  
   `USD_PUT`(`S_T`) = MAX(`S_T`, `K_PUT`) × `FC_AMT` + `FV_PREM_PUT`
 
-### 5. Strategy 4: Call Option Strategy (Long Call / Ceiling & Payoff)
-- **Future Value of Call Premium Paid at t = 182**:  
-  `FV_PREM_CALL` = -`PREM_CALL` × `FC_AMT` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`)))
+### 5. Strategy 4: Call Option Strategy (Short Call / Upside Cap & Premium Received)
+- **Position Mechanics & Cash Flow Direction**: In a collar or covered call overlay for a foreign-currency receivable, the firm **writes (sells) a call option** to cap upside participation in exchange for receiving option premium. Because premium is **received as revenue by the company at t = 0**, its future value at settlement (t = 182) represents a positive cash inflow (`+FV_PREM_CALL`) that increases net proceeds across all terminal spot scenarios.
+- **Future Value of Call Premium Received at t = 182**:  
+  `FV_PREM_CALL` = `PREM_CALL` × `FC_AMT` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`)))
 - **Net Proceeds at Settlement**:  
   `USD_CALL`(`S_T`) = MIN(`S_T`, `K_CALL`) × `FC_AMT` + `FV_PREM_CALL`
 
