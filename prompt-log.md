@@ -91,3 +91,24 @@ I identified and corrected a critical drafting defect where option premiums paid
 
 ### Takeaway
 Rigorous model specification requires strict temporal alignment of cash flows and transparent handling of real-world market imperfections like the forward-to-parity basis gap. Integrating feedback iteratively ensures the technical document is robust enough to drive the Stage 3 Excel build.
+
+
+
+## 2026-10-28 — FX Hedging Model Build & Audit (Stage 3)
+
+### Goal
+Compile, test, and audit the dynamic financial model (`model.xlsx`) from the Stage 2 specification, ensuring 100% adherence to named-range contracts, formula-only cell calculations, color-coding standards, and automated validation checks.
+
+### What I Worked On
+I executed the complete workbook assembly across eight dedicated tabs (`Cover`, `Legend_Key`, `Inputs`, `Hedge_Unhedged_Fwd`, `Hedge_MoneyMarket`, `Hedge_Options`, `Sensitivity`, and `Notes_Assumptions`). I structured the multi-step money-market pipeline, embedded option payoff logic with compounded premium timing, and built a dynamic $\pm 5\%$ sensitivity matrix linked to an automated comparison chart and live audit verification checks.
+
+### What AI Helped With
+- Translating the Stage 2 specification formulas and tab architecture into an openpyxl build script to generate `model.xlsx`
+- Verifying cross-sheet reference paths and ensuring strict compliance with formula-only calculation rules
+- Drafting a structured build audit note documenting systematic verification and defect remediation
+
+### What I Reviewed or Changed
+During post-generation inspection, I identified and corrected three structural defects: an off-by-one column reference error causing cascading `#VALUE!` evaluation failures in the money-market and options tabs; a hardcoded literal in the baseline unhedged proceeds formula that bypassed the `S0_in` named range; and missing live formula evaluation cells for the CIP parity gap and validation checks in the assumptions tab. I rewrote the relevant formulas, registered all required `OUT_*` summary outputs in Name Manager, and documented the findings in `analysis/2026-10-28-soybean-merchant-build-audit-analysis.md`.
+
+### Takeaway
+An AI-generated model is strictly a draft, not a finished deliverable. Rigorous human inspection, line-by-line formula auditing, and systematic defect remediation are essential to ensure the workbook satisfies institutional standards before deployment.
