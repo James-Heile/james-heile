@@ -89,6 +89,7 @@ All formulas are specified strictly using named-range notation.
 
 ### 5. Strategy 4: Call Option Strategy (Short Call / Upside Cap & Premium Received)
 - **Position Mechanics & Cash Flow Direction**: In a collar or covered call overlay for a foreign-currency receivable, the firm **writes (sells) a call option** to cap upside participation in exchange for receiving option premium. Because premium is **received as revenue by the company at t = 0**, its future value at settlement (t = 182) represents a positive cash inflow (`+FV_PREM_CALL`) that increases net proceeds across all terminal spot scenarios.
+- **Quote Side & Bank Pricing Note (`PREM_CALL`)**: Because the firm is selling (writing) the call option to the bank rather than buying it, the quote of `0.0296` represents the **bank's bid price** (the price at which the bank buys the option from the firm), rather than the ask/offer price at which it sells to option buyers. In Stage 4 market data population, `PREM_CALL` must reflect the bank's bid-side quote for a short option position.
 - **Future Value of Call Premium Received at t = 182**:  
   `FV_PREM_CALL` = `PREM_CALL` × `FC_AMT` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`)))
 - **Net Proceeds at Settlement**:  
