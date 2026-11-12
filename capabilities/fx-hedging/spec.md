@@ -94,6 +94,7 @@ All formulas are specified strictly using named-range notation.
   `FV_PREM_CALL` = `PREM_CALL` × `FC_AMT` × (1 + (`R_USD` × (`T_DAYS` / `BASIS`)))
 - **Net Proceeds at Settlement**:  
   `USD_CALL`(`S_T`) = MIN(`S_T`, `K_CALL`) × `FC_AMT` + `FV_PREM_CALL`
+- **Executive Trade-Off & Give-Up Analysis**: By writing the call option, the firm collects an upfront premium future value of **$410,307.06**, establishing a cash buffer. Above the strike price (`K_CALL` = `1.1221`), the firm gives up all upside appreciation on the €13,500,000 receivable. As demonstrated in the sensitivity grid, this give-up takes effect immediately when spot rises above `S0_in` (+1% delta and above), capping proceeds flat at **$15,558,657.06**. For a soybean merchant, this structure is worth it when management expects a range-bound or stable EUR/USD exchange rate environment, prioritizing guaranteed downside budget certainty and an immediate cash buffer over uncapped speculative upside.
 
 ---
 
