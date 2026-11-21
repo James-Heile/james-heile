@@ -112,3 +112,23 @@ During post-generation inspection, I identified and corrected three structural d
 
 ### Takeaway
 An AI-generated model is strictly a draft, not a finished deliverable. Rigorous human inspection, line-by-line formula auditing, and systematic defect remediation are essential to ensure the workbook satisfies institutional standards before deployment.
+
+
+## 2026-11-20 — FX Hedging Market Data & Population (Stage 4)
+
+### Goal
+Replace Stage 3 placeholder inputs in `capabilities/fx-hedging/model.xlsx` with dated, sourced live market data, verify model integrity under real market figures, compute the Covered Interest Parity (CIP) implied forward rate, and document full provenance in `data/2026-11-20-soybean-merchant-market-data-memo.md`.
+
+### What I Worked On
+I retrieved live November 20, 2026 market quotes for EUR/USD spot (`S0_in = 1.0990` via ECB Reference Rate) and 1-year sovereign benchmarks (`R_USD = 4.51%` via 1-Year U.S. Treasury Constant Maturity and `R_FC = 3.00%` via 1-Year Germany Bubill), reset ATM option strikes (`K_PUT = K_CALL = 1.0990`) to live spot, and retained the scenario forward quote (`F0_in = 1.1705`) and option premiums (`PREM_PUT = 0.0194`, `PREM_CALL = 0.0296`) as stated assumptions. I populated the named-range cells on the `Inputs` tab, updated the `Cover` tab metadata, verified that all downstream strategy tabs and sensitivity rows recalculated without formula errors, and cross-checked the populated results against the FX Hedging Lab.
+
+### What AI Helped With
+- Structuring the Stage 4 provenance memo (`data/2026-11-20-soybean-merchant-market-data-memo.md`) with full source citations, retrieval timestamps, and rate-selection rationale
+- Computing and verifying the ACT/360 CIP-implied forward rate (`1.1073` USD/EUR) and quantifying the `$853,681.92` (`+0.0632` USD/EUR) gap against the retained bank forward quote
+- Auditing the `Inputs` and `Cover` tabs for unit formatting, label consistency, and clean commit sequencing
+
+### What I Reviewed or Changed
+I verified every populated cell on the `Inputs`, `Hedge_Unhedged_Fwd`, and `Hedge_MoneyMarket` tabs to confirm that calculations updated solely through named ranges without hardcoding or error flags. I kept `F0_in` and the scenario option premiums unchanged rather than forcing the CIP parity check (`WARN: BASIS_MISMATCH`) to pass, documenting the widened `$853,681.92` gap in the memo for Stage 5 decision analysis.
+
+### Takeaway
+Separating live market-data population from structural
