@@ -1,1 +1,1 @@
-Content: This folder contains financial and quantitative analysis scripts and models.
+Content: This folder contains financial analysis, model audit and validation reports, and supporting figures.
