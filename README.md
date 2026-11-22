@@ -2,11 +2,11 @@
 
 ![Headshot](headshot.jpeg)  
 
-## 📍 Current Status
+## Current Status
 **Major:** Finance & Management Information Systems (MIS)  
 **Class of:** 2027  
 
-## 👋 About Me
+## About Me
 I am a Senior at **UH Manoa**, studying Finance and Management Information Systems, with a passion for financial strategy and the application of data-driven analytics in business decision-making.
 
 Over the past five years, I’ve gained a diverse range of professional experience—from working as a beach boy for **Aqualani** to contributing to a **data analytics project for the National Science Foundation**. These experiences have helped me develop strong communication, problem-solving, and analytical skills while giving me a broader perspective on how businesses use people, technology, and data to achieve their goals.
@@ -15,12 +15,12 @@ I’m particularly interested in the intersection of **finance and technology**,
 
 Outside of school and work, I enjoy surfing, playing pickleball with my girlfriend, and writing music on the piano. I’m always looking for opportunities to learn, grow, and take on new challenges.
 
-## 🚀 Career Aspirations
+## Career Aspirations
 - **Target Roles:** Financial Analyst / Financial Advisor, Data Analyst  
 - **Interests:** Wealth Management, FinTech, Data Analytics  
 - **Professional Goal:** I am pursuing opportunities in wealth management and financial planning while taking **Certified Financial Planner (CFP) Board-registered coursework**. My goal is to combine financial expertise with data-driven insights to help individuals and organizations make informed decisions.
 
-## 📫 Connect
+## Connect
 - **LinkedIn:** [linkedin.com/in/james-heile](https://www.linkedin.com/in/james-heile)  
 - **Email:** theile6@hawaii.edu
 
