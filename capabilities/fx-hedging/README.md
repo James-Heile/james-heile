@@ -7,8 +7,8 @@ This subfolder contains the FX hedging model specification and workbook artifact
 
 | Scenario / Engagement | Target Asset / Exposure | Key Files | Current Status |
 | :--- | :--- | :--- | :--- |
-| **Scenario 14** (Soybean Merchant) | EUR 13,500,000 Receivable (182-Day Maturity) | [`spec.md`](./spec.md) <br> `model.xlsx` *(Pending Stage 3)* | **Stage 2 Specification Complete** |
+| **Scenario 14** (Soybean Merchant) | EUR 13,500,000 Receivable (182-Day Maturity) | [`spec.md`](./spec.md) <br> [`model.xlsx`](./model.xlsx) | **Stage 5 Complete (Live Data Populated, Validated & Memo Finalized)** |
 
 ## Directory Structure
 - `spec.md`: Technical model specification (named-range contract, tab architecture, calculation flow, and validation rules).
-- `model.xlsx`: Companion financial workbook (compiled in Stage 3).
+- `model.xlsx`: Companion financial workbook (compiled in Stage 3 and populated with live market data in Stage 4).
