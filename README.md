@@ -18,7 +18,7 @@ Outside of school and work, I enjoy surfing, playing pickleball with my girlfrie
 ## 🚀 Career Aspirations
 - **Target Roles:** Financial Analyst / Financial Advisor, Data Analyst  
 - **Interests:** Wealth Management, FinTech, Data Analytics  
-- **Professional Goal:** I am pursuing opportunities in wealth management and financial planning while preparing for the **Certified Financial Planner (CFP) certification**. My goal is to combine financial expertise with data-driven insights to help individuals and organizations make informed decisions.
+- **Professional Goal:** I am pursuing opportunities in wealth management and financial planning while taking **Certified Financial Planner (CFP) Board-registered coursework**. My goal is to combine financial expertise with data-driven insights to help individuals and organizations make informed decisions.
 
 ## 📫 Connect
 - **LinkedIn:** [linkedin.com/in/james-heile](https://www.linkedin.com/in/james-heile)  
@@ -27,9 +27,18 @@ Outside of school and work, I enjoy surfing, playing pickleball with my girlfrie
 ---
 ## Engagement Index
 
-* [Resume](RESUME.md)
+- [Resume](RESUME.md)
+- [Prompt Log](prompt-log.md)
+
+### FX Hedging Project — Scenario 14 (Soybean Merchant)
+- [Model Specification (Stage 2)](capabilities/fx-hedging/spec.md)
+- [FX Hedging Model Workbook (Stages 3–4)](capabilities/fx-hedging/model.xlsx)
+- [Live Market-Data Provenance Memo (Stage 4)](data/2026-11-20-soybean-merchant-market-data-memo.md)
+- [Independent Validation & Spec Retrospective (Stage 5)](analysis/2026-11-21-soybean-merchant-validation-analysis.md)
+- [CFO Hedging Decision Memo (Stage 5)](docs/decisions/2026-11-21-soybean-merchant-hedge-decision-memo.md)
+
 ---
 
 **AI Assistance Disclosure**
 
-> *Prepared with the assistance of ChatGPT; all content was reviewed, revised, and finalized by me.*
+> *Prepared with the assistance of AI tools; all content was reviewed, revised, and finalized by me.*
