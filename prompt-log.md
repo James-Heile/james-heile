@@ -132,3 +132,23 @@ I verified every populated cell on the `Inputs`, `Hedge_Unhedged_Fwd`, and `Hedg
 
 ### Takeaway
 Separating live market-data population from structural
+
+
+
+## 2026-11-21 — FX Hedging Independent Validation & CFO Decision Memo (Stage 5)
+
+### Goal
+Run an uncoached independent LLM test using only `spec.md` and the Stage 4 market-data memo, verify calculations by hand and against `model.xlsx`, write the CFO decision memo, and complete repository polish.
+
+### What I Asked
+I opened a fresh session with only `capabilities/fx-hedging/spec.md` and `data/2026-11-20-soybean-merchant-market-data-memo.md` and asked for step-by-step settlement proceeds at t = 182 across -5%, 0%, and +5% spot scenarios, a CIP check, and a CFO hedging recommendation without coaching or workbook results.
+
+### What AI Helped With
+- Producing an independent calculation pass and recommendation from the two source documents alone (saved as the raw appendix in the validation analysis)
+- Comparing the independent output against the workbook, drafting hand-verified arithmetic tables, and writing the spec retrospective and CFO decision memo
+
+### What I Reviewed or Changed
+I checked every number from the independent run against my workbook and hand arithmetic, diagnosed any rounding or specification ambiguities, and grounded the final CFO recommendation in live November 20, 2026 numbers and the `$853,681.92` CIP parity gap.
+
+### Takeaway
+Testing standalone documentation against a fresh model exposes where a specification relies on implicit context or rounding conventions before executive sign-off.
