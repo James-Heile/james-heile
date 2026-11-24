@@ -1,6 +1,6 @@
 # Stage 4 Market-Data Memo: Scenario 14 (Soybean Merchant)
 
-**Document Path:** `data/2026-11-20-scenario-14-market-data-memo.md`  
+**Document Path:** `data/2026-11-20-soybean-merchant-market-data-memo.md`  
 **Workbook Populated:** `capabilities/fx-hedging/model.xlsx`  
 **Author:** James Heile  
 **Market Data Date:** November 20, 2026  
@@ -69,10 +69,14 @@ Expected named-range outputs in `capabilities/fx-hedging/model.xlsx` under live 
 
 | Strategy | `model.xlsx` Output | FX Hedging Lab Output | Difference | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| Unhedged (at `S0_in`) | `$14,836,500.00` | *[Enter Lab value]* | `$0.00` | *[PASS / Note]* |
-| Forward Hedge | `$15,801,750.00` | *[Enter Lab value]* | `$0.00` | *[PASS / Note]* |
-| Money-Market Hedge | `$14,948,068.08` | *[Enter Lab value]* | `$0.00` | *[PASS / Note]* |
-| Put Option Floor | `$14,568,628.53` | *[Enter Lab value]* | `$0.00` | *[PASS / Note]* |
-| Written Call (Capped) | `$15,245,211.10` | *[Enter Lab value]* | `$0.00` | *[PASS / Note]* |
+| Unhedged (at `S0_in`) | `$14,836,500.00` | Not displayed in Lab view | N/A | Not shown in Lab |
+| Forward Hedge | `$15,801,750.00` | `$15,801,750` | `$0.00` | Exact match |
+| Money-Market Hedge | `$14,948,068.08` | `$14,948,068` | `+$0.08` *(display rounding)* | Match (rounding only) |
+| Put Option Floor | `$14,568,628.53` | Not displayed in Lab view | N/A | Not shown in Lab |
+| Written Call (Capped) | `$15,245,211.10` | Not displayed in Lab view | N/A | Not shown in Lab |
 
-**Cross-Check Resolution:** *[Confirm exact match or document any discrepancy—e.g., day-count basis or rounding—and how it was resolved before committing.]*
+**Money-Market Steps & Premium / Difference Notes:**
+- **Lab Money-Market Steps:** Step 1 Borrow FC: `13,298,309 EUR` (vs. `€13,298,308.98` in `model.xlsx`) → Step 2 Convert at spot: `$14,614,842` (vs. `$14,614,841.57`) → Step 3 Invest in USD: `$14,948,068` (vs. `$14,948,068.08`)[cite: 7].
+- **Difference Explanation:** Forward and money-market outputs match `model.xlsx` aside from whole-dollar/integer rounding in the Lab display (`$14,948,068` vs. `$14,948,068.08`)[cite: 7]. Both tools compute an implied forward of `1.1073` against the `1.1705` quoted forward (`-$853,682` in Lab `MM - Forward` terms, matching the `-$853,681.92` difference between `$14,948,068.08` and `$15,801,750.00`)[cite: 7, 8]. Unhedged, put floor, and written call outputs were not displayed in the Lab's results panel, so no option-premium comparison was observed from the Lab[cite: 7, 8].
+
+**Cross-Check Resolution:** Forward and money-market hedge mechanics and CIP gap figures are verified across `model.xlsx` and the FX Hedging Lab[cite: 7, 8]. The `$853,681.92` parity gap reflects the retained `1.1705` bank forward quote versus live November 20 market rates rather than a workbook formula error, and option figures remain governed by `model.xlsx` since the Lab UI did not show option outputs[cite: 7, 8].
