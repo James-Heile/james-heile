@@ -53,15 +53,15 @@ $$F_0^{\text{CIP}} = S_0 \times \frac{1 + R_{\text{USD}} \times \frac{182}{360}}
 
 Expected named-range outputs in `capabilities/fx-hedging/model.xlsx` under live November 20, 2026 inputs:
 
-* **`OUT_UNHEDGED_BASE` (at `S0_in = 1.0990`):** `$14,836,500.00`
-* **`OUT_FWD_PROCEEDS`:** `$15,801,750.00`
-* **`OUT_MM_PROCEEDS`:** `$14,948,068.08` *(Step 1 Borrow: `€13,298,308.98` → Step 2 Spot USD: `$14,614,841.57` → Step 3 Invested USD: `$14,948,068.08`)*
-* **`OUT_PUT_NET_FLOOR`:** `$14,568,628.53` *(Upfront premium `$261,900.00`, compounded `FV_PREM_PUT = -$267,871.47`)*
-* **Written Call Capped Proceeds (at `S_T >= 1.0990`):** `$15,245,211.10` *(Upfront premium `$399,600.00`, compounded `FV_PREM_CALL = +$408,711.10`; breakeven spot where upside give-up overtakes premium = `1.1293`)*
-* **Sensitivity Grid & Chart:** Recalculated across `-5%` (`1.0441`) to `+5%` (`1.1540`) around live `S0_in = 1.0990`.
+- **`OUT_UNHEDGED_BASE` (at `S0_in = 1.0990`):** `$14,836,500.00`
+- **`OUT_FWD_PROCEEDS`:** `$15,801,750.00`
+- **`OUT_MM_PROCEEDS`:** `$14,948,068.08` *(Step 1 Borrow: `€13,298,308.98` → Step 2 Spot USD: `$14,614,841.57` → Step 3 Invested USD: `$14,948,068.08`)*
+- **`OUT_PUT_NET_FLOOR`:** `$14,568,628.53` *(Upfront premium `$261,900.00`, compounded `FV_PREM_PUT = -$267,871.47`)*
+- **Written Call Capped Proceeds (at `S_T >= 1.0990`):** `$15,245,211.10` *(Upfront premium `$399,600.00`, compounded `FV_PREM_CALL = +$408,711.10`; breakeven spot where upside give-up overtakes premium = `1.1293`)*
+- **Sensitivity Grid & Chart:** Recalculated across `-5%` (`1.0441`) to `+5%` (`1.1540`) around live `S0_in = 1.0990`.
 
 ### Structural Fixes During Population
-* *[Confirm after populating: e.g., "None — all formulas, named outputs, and sensitivity rows recalculated with zero errors (#REF!, #VALUE!, #N/A, #DIV/0!)" OR document any formula defect found and fixed in its own commit.]*
+No structural fixes were needed during Stage 4 population. Only the market inputs on `Inputs` and the cover/source text changed from Stage 3; all formulas, named ranges, and sensitivity rows recalculated cleanly with zero formula errors.
 
 ---
 
