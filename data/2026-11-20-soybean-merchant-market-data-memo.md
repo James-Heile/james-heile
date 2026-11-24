@@ -69,14 +69,15 @@ No structural fixes were needed during Stage 4 population. Only the market input
 
 | Strategy | `model.xlsx` Output | FX Hedging Lab Output | Difference | Status |
 | :--- | :--- | :--- | :--- | :--- |
-| Unhedged (at `S0_in`) | `$14,836,500.00` | Not displayed in Lab view | N/A | Not shown in Lab |
+| Unhedged (at `S0_in`) | `$14,836,500.00` | `$14,836,500` | `+$0.00` *(display rounding)* | Match (rounding only) |
 | Forward Hedge | `$15,801,750.00` | `$15,801,750` | `$0.00` | Exact match |
 | Money-Market Hedge | `$14,948,068.08` | `$14,948,068` | `+$0.08` *(display rounding)* | Match (rounding only) |
-| Put Option Floor | `$14,568,628.53` | Not displayed in Lab view | N/A | Not shown in Lab |
+| Put Option Floor | `$14,568,628.53` | `$14,574,600` | `-$5,971.47` | Differs (premium time-value) |
 | Written Call (Capped) | `$15,245,211.10` | Not displayed in Lab view | N/A | Not shown in Lab |
 
 **Money-Market Steps & Premium / Difference Notes:**
 - **Lab Money-Market Steps:** Step 1 Borrow FC: `13,298,309 EUR` (vs. `€13,298,308.98` in `model.xlsx`) → Step 2 Convert at spot: `$14,614,842` (vs. `$14,614,841.57`) → Step 3 Invest in USD: `$14,948,068` (vs. `$14,948,068.08`)[cite: 7].
-- **Difference Explanation:** Forward and money-market outputs match `model.xlsx` aside from whole-dollar/integer rounding in the Lab display (`$14,948,068` vs. `$14,948,068.08`)[cite: 7]. Both tools compute an implied forward of `1.1073` against the `1.1705` quoted forward (`-$853,682` in Lab `MM - Forward` terms, matching the `-$853,681.92` difference between `$14,948,068.08` and `$15,801,750.00`)[cite: 7, 8]. Unhedged, put floor, and written call outputs were not displayed in the Lab's results panel, so no option-premium comparison was observed from the Lab[cite: 7, 8].
+- **Difference Explanation:** Unhedged, forward, and money-market outputs match `model.xlsx` aside from whole-dollar/integer rounding in the Lab display (`$14,948,068` vs. `$14,948,068.08`)[cite: 7, 9]. The Put Option Floor differs by `$5,971.47` (`$14,568,628.53` in `model.xlsx` vs. `$14,574,600` in the Lab) because `model.xlsx` compounds the upfront `$261,900.00` premium to maturity at the USD rate (`-$267,871.47`), whereas the Lab subtracts the uncompounded upfront premium (`$261,900`)[cite: 9]. The Lab also reports the parity gap as `-$853,682` (`MM - Forward`), matching the `-$853,681.92` gap between `$14,948,068.08` and `$15,801,750.00`[cite: 7, 8]. Written call outputs were not displayed in the Lab[cite: 9, 10, 11].
 
-**Cross-Check Resolution:** Forward and money-market hedge mechanics and CIP gap figures are verified across `model.xlsx` and the FX Hedging Lab[cite: 7, 8]. The `$853,681.92` parity gap reflects the retained `1.1705` bank forward quote versus live November 20 market rates rather than a workbook formula error, and option figures remain governed by `model.xlsx` since the Lab UI did not show option outputs[cite: 7, 8].
+**Cross-Check Resolution:** Forward and money-market hedge mechanics and the `$853,681.92` CIP gap are verified across `model.xlsx` and the FX Hedging Lab[cite: 7, 8, 9]. The `$5,971.47` put floor difference is explained by maturity compounding of the upfront premium in `model.xlsx` versus uncompounded premium deduction in the Lab[cite: 9], and `model.xlsx` remains the primary model for maturity-aligned cash flows and written call modeling.
+
